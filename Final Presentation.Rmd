@@ -1,0 +1,97 @@
+---
+title: "Final Presentation"
+author: "Author: Juldyz Woodis"
+date: "`r format(Sys.time(), '%B %d, %Y @ %I:%M %p')`"
+output: ioslides_presentation
+---
+
+```{r global_options, include = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  comment = NA
+)
+```
+
+## Packages I Used Used
+
+I used ggplot2 for data manipulation and plotting.
+
+```{r, echo = TRUE}
+library(ggplot2)
+```
+
+
+## Growth of Tesla Over The Years
+
+I created my dataset using information I found On Kaggle regarding the highs and lows of the Tesla stock. I thought it'd be interesting to research what has become the mogul company of our generation.  [ Tesla Dataset( https://www.kaggle.com/datasets/jillanisofttech/tesla-stock-price?resource=download)
+
+The dataset was last updated on April 11th 2022, so some values may have been added since then. 
+
+**Variables used in the Dataset Manipulations:**
+
+* `High`: Highest stock price of the day
+* `Low`: Lowest stock price of the day
+* `Open`: Opening price
+* `Close`: Closing price adjusted for splits and dividends
+
+
+
+```{r}
+library(readr)
+TSLA_data <- read_csv("TSLA.csv")
+
+```
+
+##
+
+
+```{r, fig.align = "center", fig.width = 7.5}
+library(ggplot2)
+
+ggplot(TSLA_data, aes(Low,High)) + geom_point(aes(x = Open, y = Close, color = '#00BC59' )) + scale_x_discrete(labels = c("Highest Stock Price of The Day", "Lowest Stock Price of The Day")) +    scale_y_continuous(breaks = seq(from = 40, to = 1000, by = 150)) +
+  scale_fill_brewer(palette = "Blues") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(size = 12),
+    axis.text.y = element_text(size = 10),
+    axis.title.y = element_text(size = 12),
+    panel.grid.major.x = element_blank(),
+    legend.position = "none"
+  ) +
+ labs(
+title = "Tesla's Growth In Stock Prices Over The Years",  subtitle = "Data includes Stock Dates From 2019 To 2022")
+```
+
+
+##
+
+```{r, fig.align = "center", fig.width = 7.5}
+ggplot(TSLA_data, aes(Open, Volume)) + geom_point() +
+  scale_y_continuous(
+    breaks = seq(from = 0, to = 4000, by = 1000))+
+  scale_fill_brewer(type = "seq",
+  palette = 1,
+  direction = 1
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(size = 12),
+    axis.text.y = element_text(size = 10),
+    axis.title.y = element_text(size = 12),
+    panel.grid.major.x = element_blank()
+  ) +
+  labs(
+    title = "Opening Price Compared To Volume Of Purchases",
+    subtitle = "Data includes all Opening Prices From 2019 to 2022",
+    caption = "*This Is Current Only To April of 2022",
+    x = "Price of Stock At Open",
+    y = "Volume Of Purchases At Open",
+    fill = NULL
+  )
+```
+
+## What's The Impact Of the Data?
+
+The data showcases what popularity and marketing can do for a company over the years. At the same time we also see the affordability of the stock decreasing as time goes on due to the popularity and marketing. 
